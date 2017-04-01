@@ -1,11 +1,11 @@
 # MachineLearning
 Machine Learning Projects (will eventually contain every popular technique/model/algorithm).
 
-# Currently Included:
+# Currently included
 
 Linear Regression using Gradient Descent
 
-# Coming soon:
+# Coming soon
 
 Logistic Regression
 Regularization
