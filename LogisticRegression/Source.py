@@ -5,13 +5,10 @@ from scipy.optimize import fmin_bfgs
 class MLHelper:
 
 
-    def __init__(self):
-        pass
-
-
     @staticmethod
     def sigmoid(X):
 	return 1.0 / (1.0 + e ** (-1.0 * X))
+
 
 class Admission:
 
@@ -36,6 +33,7 @@ class Admission:
         xlabel('Exam 1 score')
         ylabel('Exam 2 score')
         legend(['Admitted', 'Not Admitted'])
+	#show()
         self.m, self.n = self.X.shape
         self.y.shape = (self.m, 1)
         self.it = ones(shape=(self.m, 3))
