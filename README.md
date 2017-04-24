@@ -5,15 +5,15 @@ Machine Learning Projects (will eventually contain every popular technique/model
 
 Linear Regression
 
+Logistic Regression
+
 Single Layer Feedforward Netural Network
 
 Multilayer Neural Network
 
 # Coming soon
 
-Logistic Regression
-
-Regularization
+Logistic Regression (with Regularization)
 
 Support Vector Machines
 
