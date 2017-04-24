@@ -101,4 +101,3 @@ if __name__ == '__main__':
 
     p = admission.predict(array(theta), admission.it)
     print 'Training accuracy: %f' % ((admission.y[where(p == admission.y)].size / float(admission.y.size)) * 100.0)
-
