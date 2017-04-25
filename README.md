@@ -13,8 +13,6 @@ Multilayer Neural Network
 
 # Coming soon
 
-Logistic Regression (with Regularization)
-
 Support Vector Machines
 
 Clustering
