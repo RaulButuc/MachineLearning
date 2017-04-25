@@ -11,6 +11,10 @@ Single Layer Feedforward Netural Network
 
 Multilayer Neural Network
 
+Handwritten Digits Recognition Basic (softmax regression)
+
+Handwritten Digits Recognition Advanced (deep convolutional neural network)
+
 # Coming soon
 
 Support Vector Machines
