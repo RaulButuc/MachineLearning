@@ -15,6 +15,8 @@ Handwritten Digits Recognition Basic (softmax regression)
 
 Handwritten Digits Recognition Advanced (deep convolutional neural network)
 
+Convolutional Neural Network (20% progress)
+
 # Coming soon
 
 Support Vector Machines
@@ -28,8 +30,6 @@ Anomaly Detection
 Recommender Systems
 
 Recurrent Neural Network
-
-Convolutional Neural Network
 
 Deep Learning applications
 
