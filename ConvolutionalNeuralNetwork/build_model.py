@@ -4,6 +4,7 @@ import sys
 import tarfile
 import tensorflow as tf
 import read_input
+from six.moves import urllib
 
 FLAGS = tf.app.flags.FLAGS
 
