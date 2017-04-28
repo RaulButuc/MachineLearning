@@ -193,5 +193,81 @@ def _add_loss_summaries(total_loss):
   losses = tf.get_collection('losses')
   loss_averages_op = loss_averages.apply(losses + [total_loss])
 
-  # TODO: Complete the method
-  
+  # Attach a scalar summary to all individual losses and the total loss
+  # Do the same for the averaged version of the losses
+  for l in losses + [total_loss]:
+    tf.summary.scalar(l.op.name + ' (raw)', l)
+    tf.summary.scalar(l.op.name, loss_averages.average(l))
+
+  return loss_averages_op
+
+
+def train(total_loss, global_step):
+  '''
+  Train CIFAR-10 model
+  '''
+  # Variables that affect learning rate
+  num_batches_per_epoch = NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN / FLAGS.batch_size
+  decay_steps = int(num_batches_per_epoch * NUM_EPOCHS_PER_DECAY)
+
+  # Decay the learning rate exponentially based on the number of steps
+  lr = tf.train.exponential_decay(INITIAL_LEARNING_RATE,
+                                  global_step,
+                                  decay_steps,
+                                  LEARNING_RATE_DECAY_FACTOR,
+                                  staircase=True)
+  tf.summary.scalar('learning_rate', lr)
+
+  # Generate moving averages of all losses and associated summaries
+  loss_averages_op = _add_loss_summaries(total_loss)
+
+  # Compute gradients
+  with tf.control_dependencies([loss_averages_op]):
+    opt = tf.train.GradientDescentOptimizer(lr)
+    grads = opt.comptute_gradients(total_loss)
+
+  # Apply gradients
+  apply_gradient_op = opt.apply_gradients(grads, global_step=global_step)
+
+  # Add histograms for trainable variables
+  for var in tf.trainable_variables():
+    tf.summary.histogram(var.op.name, var)
+
+  # Add histograms for gradients
+  for grad, var in grads:
+    if grad is not None:
+      tf.summary.histogram(var.op.name + '/gradients', grad)
+
+  # Track the moving averages of all trainable variables
+  variable_averages = tf.train.ExponentialMovingAverage(
+    MOVING_AVERAGE_DECAY, global_step
+  )
+  variable_averages_op = variable_averages.apply(tf.trainable_variables())
+
+  with tf.control_dependencies([apply_gradient_op, variable_averages_op]):
+    train_op = tf.no_op(name='train')
+
+  return train_op
+
+
+def maybe_download_and_extract():
+  '''
+  Download and extract the tarball
+  '''
+  dest_directory = FLAGS.data_dir
+  if not os.path.exists(dest_directory):
+    os.makedirs(dest_directory)
+  filename = DATA_URL.split('/')[-1]
+  filepath = os.path.join(dest_directory, filename)
+  if not os.path.exists(filepath):
+    def _progress(count, block_size, tota_size):
+      sys.stdout.write('\r>> Downloading %s %.1f%%' % (filename,
+        float(count * block_size) / float (total_size) * 100.0))
+      sys.stdout.flush()
+    filepath, _ = urllib.request.urlretrieve(DATA_URL, filepath, _progress)
+    print()
+    statinfo = os.stat(filepath)
+    print('Successfully downloaded', filename, statinfo.st_size, 'bytes')
+  extracted_dir_path = os.path.join(dest_directory, 'cifar-10-batches-bin')
+  if not os.path.exists(extracted_dir_path):
+    tarfile.open(filepath, 'r:gz').extractall(dest_directory)
