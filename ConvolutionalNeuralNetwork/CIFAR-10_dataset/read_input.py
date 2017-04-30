@@ -55,7 +55,7 @@ def _generate_image_and_label_batch(image, label, min_queue_examples, batch_size
   '''
   num_preprocess_threads = 16
   if shuffle:
-    images, label_batch = tf.train.batch(
+    images, label_batch = tf.train.shuffle_batch(
       [image, label],
       batch_size=batch_size,
       num_threads=num_preprocess_threads,
