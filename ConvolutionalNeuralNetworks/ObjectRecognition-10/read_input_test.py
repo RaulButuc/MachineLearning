@@ -19,14 +19,14 @@ class ReadInputTest(tf.test.TestCase):
                self._record(labels[2], 254, 255, 0)]
     contents = b"".join([record for record, _ in records])
     expected = [expected for _, expected in records]
-    filename = os.path.join(self.get_temp_dir(), "cifar")
+    filename = os.path.join(self.get_temp_dir(), "cnn-obj-rec-10")
     open(filename, "wb").write(contents)
 
     with self.test_session() as sess:
       q = tf.FIFOQueue(99, [tf.string], shapes=())
       q.enqueue([filename]).run()
       q.close().run()
-      result = read_input.read_cifar10(q)
+      result = read_input.read_data(q)
 
       for i in range(3):
         key, label, uint8image = sess.run([

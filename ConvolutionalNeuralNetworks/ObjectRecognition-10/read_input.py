@@ -7,15 +7,15 @@ NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN = 50000
 NUM_EXAMPLES_PER_EPOCH_FOR_EVAL = 10000
 
 
-def read_cifar10(filename_queue):
+def read_data(filename_queue):
   '''
-  Reads and parses examples from CIFAR-10 data files
+  Reads and parses examples from data files
   '''
-  class CIFAR10Record(object):
+  class Record(object):
     pass
-  result = CIFAR10Record()
+  result = Record()
 
-  # Dimensions of the images in the CIFAR-10 dataset
+  # Dimensions of the images in the dataset
   label_bytes = 1
   result.height = 32
   result.width = 32
@@ -78,7 +78,7 @@ def _generate_image_and_label_batch(image, label, min_queue_examples, batch_size
 
 def distorted_inputs(data_dir, batch_size):
   '''
-  Construct distorted input for CIFAR training using the Reader ops
+  Construct distorted input for training using the Reader ops
   '''
   filenames = [os.path.join(data_dir, 'data_batch_%d.bin' % i)
                for i in xrange(1, 6)]
@@ -90,7 +90,7 @@ def distorted_inputs(data_dir, batch_size):
   filename_queue = tf.train.string_input_producer(filenames)
 
   # Read examples from files in the filename queue
-  read_input = read_cifar10(filename_queue)
+  read_input = read_data(filename_queue)
   reshaped_image = tf.cast(read_input.uint8image, tf.float32)
 
   height = IMAGE_SIZE
@@ -121,7 +121,7 @@ def distorted_inputs(data_dir, batch_size):
   min_fraction_of_examples_in_queue = 0.4
   min_queue_examples = int(NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN *
                            min_fraction_of_examples_in_queue)
-  print('Filling queue with %d CIFAR images before starting to train. '
+  print('Filling queue with %d images before starting to train. '
         'This will take a few minutes.' % min_queue_examples)
 
   # Generate a batch of images and labels by building up a queue of examples
@@ -131,7 +131,7 @@ def distorted_inputs(data_dir, batch_size):
 
 def inputs(eval_data, data_dir, batch_size):
   '''
-  Construct input for CIFAR evaluation using the Reader ops
+  Construct input for evaluation using the Reader ops
   '''
   if not eval_data:
     filenames = [os.path.join(data_dir, 'data_batch_%d.bin' % i)
@@ -149,7 +149,7 @@ def inputs(eval_data, data_dir, batch_size):
   filename_queue = tf.train.string_input_producer(filenames)
 
   # Read examples from files in the filename queue
-  read_input = read_cifar10(filename_queue)
+  read_input = read_data(filename_queue)
   reshaped_image = tf.cast(read_input.uint8image, tf.float32)
 
   height = IMAGE_SIZE

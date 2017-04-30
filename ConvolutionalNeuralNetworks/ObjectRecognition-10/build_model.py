@@ -11,12 +11,12 @@ FLAGS = tf.app.flags.FLAGS
 # Basic model parameters
 tf.app.flags.DEFINE_integer('batch_size', 128,
                             '''Number of images to process in a batch''')
-tf.app.flags.DEFINE_string('data_dir', '/tmp/cifar10_data',
-                            '''Path to the cifar10 data directory''')
+tf.app.flags.DEFINE_string('data_dir', '/tmp/cnn-object-recognition-10',
+                            '''Path to the data directory''')
 tf.app.flags.DEFINE_boolean('use_fp16', False,
                             '''Train the model using fp16''')
 
-# Global constants describing the CIFAR-10 dataset
+# Global constants describing the dataset
 IMAGE_SIZE = read_input.IMAGE_SIZE
 NUM_CLASSES = read_input.NUM_CLASSES
 NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN = read_input.NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN
@@ -68,7 +68,7 @@ def _variable_with_weight_decay(name, shape, stddev, wd):
 
 def distorted_inputs():
   '''
-  Construct distorted input for CIFAR-10 training using the Reader ops
+  Construct distorted input for training using the Reader ops
   '''
   if not FLAGS.data_dir:
     raise ValueError('Please supply a data_dir')
@@ -83,7 +83,7 @@ def distorted_inputs():
 
 def inputs(eval_data):
   '''
-  Construct input for CIFAR-10 evaluation using the Reader ops
+  Construct input for evaluation using the Reader ops
   '''
   if not FLAGS.data_dir:
     raise ValueError('Please supply a data_dir')
@@ -99,7 +99,7 @@ def inputs(eval_data):
 
 def inference(images):
   '''
-  Build the CIFAR-10 model
+  Build the model
   '''
   # Convolutional Layer 1
   with tf.variable_scope('conv1') as scope:
@@ -187,7 +187,7 @@ def loss(logits, labels):
 
 def _add_loss_summaries(total_loss):
   '''
-  Add summaries for losses in CIFAR-10 model
+  Add summaries for losses in model
   '''
   # Compute the moving average of all individual losses and the total loss
   loss_averages = tf.train.ExponentialMovingAverage(0.9, name='avg')
@@ -205,7 +205,7 @@ def _add_loss_summaries(total_loss):
 
 def train(total_loss, global_step):
   '''
-  Train CIFAR-10 model
+  Train model
   '''
   # Variables that affect learning rate
   num_batches_per_epoch = NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN / FLAGS.batch_size
@@ -269,6 +269,6 @@ def maybe_download_and_extract():
     print()
     statinfo = os.stat(filepath)
     print('Successfully downloaded', filename, statinfo.st_size, 'bytes')
-  extracted_dir_path = os.path.join(dest_directory, 'cifar-10-batches-bin')
+  extracted_dir_path = os.path.join(dest_directory, 'cnn-obj-rec-batches-bin')
   if not os.path.exists(extracted_dir_path):
     tarfile.open(filepath, 'r:gz').extractall(dest_directory)

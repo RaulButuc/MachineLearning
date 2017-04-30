@@ -7,11 +7,11 @@ from datetime import datetime
 
 FLAGS = tf.app.flags.FLAGS
 
-tf.app.flags.DEFINE_string('eval_dir', '/tmp/cifar10_eval',
+tf.app.flags.DEFINE_string('eval_dir', '/tmp/cnn-object-recognition-10_eval',
                            """Directory where to write event logs.""")
 tf.app.flags.DEFINE_string('eval_data', 'test',
                            """Either 'test' or 'train_eval'.""")
-tf.app.flags.DEFINE_string('checkpoint_dir', '/tmp/cifar10_train',
+tf.app.flags.DEFINE_string('checkpoint_dir', '/tmp/cnn-object-recognition-10_train',
                            """Directory where to read model checkpoints.""")
 tf.app.flags.DEFINE_integer('eval_interval_secs', 60 * 5,
                             """How often to run the eval.""")
@@ -69,10 +69,10 @@ def eval_once(saver, summary_writer, top_k_op, summary_op):
 
 def evaluate():
   '''
-  Eval CIFAR-10 for a number of steps
+  Eval for a number of steps
   '''
   with tf.Graph().as_default() as g:
-    # Get images and labels for CIFAR-10
+    # Get images and labels for the dataset
     eval_data = FLAGS.eval_data == 'test'
     images, labels = build_model.inputs(eval_data=eval_data)
 
