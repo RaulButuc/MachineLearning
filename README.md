@@ -3,19 +3,22 @@ Machine Learning Projects (will eventually contain every popular technique/model
 
 # Currently included
 
-Linear Regression
-
-Logistic Regression
-
-Single Layer Feedforward Netural Network
-
-Multilayer Neural Network
-
-Handwritten Digits Recognition Basic (softmax regression)
-
-Handwritten Digits Recognition Advanced (deep convolutional neural network)
-
-Convolutional Neural Network (20% progress)
+```
+.
+├── Regression
+│   ├── Linear
+│   │   └── Basic
+│   ├── Logistic
+│   │   └── Basic
+│   └── Softmax
+│       └── HandwrittenDigitsRecognition
+├── ArtificialNeuralNetworks
+│   ├── MultiLayerBasic
+│   └── SingleLayerFeedforward
+└── ConvolutionalNeuralNetworks
+    ├── HandwrittenDigitsRecognition
+    └── ObjectRecognition-10
+```
 
 # Coming soon
 
@@ -29,7 +32,7 @@ Anomaly Detection
 
 Recommender Systems
 
-Recurrent Neural Network
+Recurrent Neural Networks
 
 Deep Learning applications
 
