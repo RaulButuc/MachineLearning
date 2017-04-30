@@ -11,7 +11,7 @@ FLAGS = tf.app.flags.FLAGS
 # Basic model parameters
 tf.app.flags.DEFINE_integer('batch_size', 128,
                             '''Number of images to process in a batch''')
-tf.app.flags.DEFINE_string('batch_size', 128,
+tf.app.flags.DEFINE_string('data_dir', '/tmp/cifar10_data',
                             '''Path to the cifar10 data directory''')
 tf.app.flags.DEFINE_boolean('use_fp16', False,
                             '''Train the model using fp16''')
@@ -35,7 +35,7 @@ def _activation_summary(x):
   '''
   Helper to create summaries for activations
   '''
-  tensor_name = re.sub('%s_[0-9]&*/' % TOWER_NAME, '' x.op.name)
+  tensor_name = re.sub('%s_[0-9]&*/' % TOWER_NAME, '', x.op.name)
   tf.summary.histogram(tensor_name + '/activations', x)
   tf.summary.scalar(tensor_name + '/sparsity', tf.nn.zero_fraction(x))
 
