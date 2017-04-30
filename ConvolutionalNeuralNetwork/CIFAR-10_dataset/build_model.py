@@ -127,7 +127,7 @@ def inference(images):
                                          shape=[5, 5, 64, 64],
                                          stddev=5e-2,
                                          wd=0.0)
-    conv = tf.nn.conv2d(images, kernel, [1, 1, 1, 1], padding='SAME')
+    conv = tf.nn.conv2d(norm1, kernel, [1, 1, 1, 1], padding='SAME')
     biases = _variable_on_cpu('biases', [64], tf.constant_initializer(0.1))
     pre_activation = tf.nn.bias_add(conv, biases)
     conv2 = tf.nn.relu(pre_activation, name=scope.name)
@@ -225,7 +225,7 @@ def train(total_loss, global_step):
   # Compute gradients
   with tf.control_dependencies([loss_averages_op]):
     opt = tf.train.GradientDescentOptimizer(lr)
-    grads = opt.comptute_gradients(total_loss)
+    grads = opt.compute_gradients(total_loss)
 
   # Apply gradients
   apply_gradient_op = opt.apply_gradients(grads, global_step=global_step)
