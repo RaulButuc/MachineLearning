@@ -22,6 +22,12 @@ Machine Learning Projects (will eventually contain every popular technique/model
 
 # Coming soon
 
+Recurrent Neural Networks
+
+Reinforcement Learning
+
+Deep Reinforcement Learning
+
 Support Vector Machines
 
 Clustering
@@ -31,9 +37,3 @@ Dimensionality Reduction
 Anomaly Detection
 
 Recommender Systems
-
-Recurrent Neural Networks
-
-Deep Learning applications
-
-Reinforcement Learning
