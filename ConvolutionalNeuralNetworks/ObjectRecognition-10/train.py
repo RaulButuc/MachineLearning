@@ -38,8 +38,9 @@ def train():
     train_op = build_model.train(loss, global_step)
 
     class _LoggerHook(tf.train.SessionRunHook):
-      """Logs loss and runtime."""
-
+      '''
+      Logs loss and runtime
+      '''
       def begin(self):
         self._step = -1
         self._start_time = time.time()
