@@ -14,8 +14,8 @@ Machine Learning Projects (will eventually contain every popular technique/model
 │   └── Softmax
 │       └── HandwrittenDigitsRecognition
 ├── ArtificialNeuralNetworks
-│   ├── MultiLayerBasic
-│   └── SingleLayerFeedforward
+│   ├── SingleLayerFeedforward
+│   └── MultiLayerBasic
 └── ConvolutionalNeuralNetworks
     ├── HandwrittenDigitsRecognition
     └── ObjectRecognition-10
