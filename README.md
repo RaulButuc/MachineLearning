@@ -9,7 +9,8 @@ Machine Learning Projects (will eventually contain every popular technique/model
 │   ├── Linear
 │   │   └── Basic
 │   ├── Logistic
-│   │   └── Basic
+│   │   ├──  Basic
+│   │   └──  SocialNetworkAds
 │   └── Softmax
 │       └── HandwrittenDigitsRecognition
 ├── ArtificialNeuralNetworks
