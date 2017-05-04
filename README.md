@@ -15,7 +15,8 @@ Machine Learning Projects (will eventually contain every popular technique/model
 │       └── HandwrittenDigitsRecognition
 ├── ArtificialNeuralNetworks
 │   ├── SingleLayerFeedforward
-│   └── MultiLayerBasic
+│   ├── MultiLayerBasic
+│   └── BusinessProblem
 └── ConvolutionalNeuralNetworks
     ├── HandwrittenDigitsRecognition
     └── ObjectRecognition-10
