@@ -1,10 +1,11 @@
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import confusion_matrix
 from keras.models import Sequential
-from keras.layers import Dense
+from keras.layers import Dense, Dropout
+from keras.wrappers.scikit_learn import KerasClassifier
 
 class BusinessProblem:
 
@@ -12,6 +13,7 @@ class BusinessProblem:
   X = X_train = X_test = None
   y = y_train = y_test = y_pred = None
   classifier = conf_mat = None
+  best_params = best_accuracy = None
 
 
   def __init__(self):
@@ -47,43 +49,52 @@ class BusinessProblem:
 
   def build_model(self):
     '''
-    Build the artificial neural network
+    Use grid search with k-Fold cross-validation to find the best
+    hyperparameters and accuracy
     '''
-    self.classifier = Sequential()
-    self.classifier.add(Dense(input_dim=11, units=6,
-                              kernel_initializer='uniform', activation='relu'))
-    self.classifier.add(Dense(units=6, kernel_initializer='uniform',
-                              activation='relu'))
-    self.classifier.add(Dense(units=1, kernel_initializer='uniform',
-                              activation='sigmoid'))
-    self.classifier.compile(optimizer='adam', loss='binary_crossentropy',
-                            metrics=['accuracy'])
-    self.classifier.fit(self.X_train, self.y_train,
-                        batch_size=10, epochs=100)
-
-
-  def predict(self):
-    '''
-    Predicting the test set result
-    '''
-    self.y_pred = self.classifier.predict(self.X_test)
-    self.y_pred = (self.y_pred > 0.5)
-    
-
-  def make_confusion_matrix(self):
-    '''
-    Making the confusion matrix
-    '''
-    self.conf_mat = confusion_matrix(self.y_test, self.y_pred)
+    classifier = KerasClassifier(build_fn=_build_classifier)
+    params = {'batch_size': [25, 32], 
+                  'epochs': [100, 500],
+                  'optimizer': ['adam', 'rmsprop']}
+    grid_search = GridSearchCV(estimator=classifier,
+                               param_grid=params,
+                               scoring='accuracy',
+                               cv=10)
+    grid_search = grid_search.fit(self.X_train, self.y_train)
+    self.best_params = grid_search.best_params_
+    self.best_accuracy = grid_search.best_score_
 
   
   def get_accuracy(self):
     '''
-    Divide the number of correct predictions by the total number of entries
+    Retrieve the best accuracy after grid search
     '''
-    print("Test accuracy: " + 
-          str(np.trace(self.conf_mat) / self.y_pred.shape[0]))
+    print("Accuracy: " + str(self.best_accuracy))
+    print("Params: ", self.best_params)
 
+
+def _build_classifier(optimizer):
+    classifier = Sequential()
+
+    # Add the input layer and the first hidden layer with dropout
+    classifier.add(Dense(input_dim=11, units=6,
+                         kernel_initializer='uniform', activation='relu'))
+    classifier.add(Dropout(rate=0.1))
+
+    # Add the second hidden layer with dropout
+    classifier.add(Dense(units=6, kernel_initializer='uniform',
+                         activation='relu'))
+    classifier.add(Dropout(rate=0.1))
+
+    # Add the output layer
+    classifier.add(Dense(units=1, kernel_initializer='uniform',
+                         activation='sigmoid'))
+
+    # Compile the artificial neural network
+    classifier.compile(optimizer=optimizer, loss='binary_crossentropy',
+                       metrics=['accuracy'])
+
+    return classifier
 
 def run():
   '''
@@ -94,8 +105,6 @@ def run():
   business_problem = BusinessProblem()
   business_problem.scale_features()
   business_problem.build_model()
-  business_problem.predict()
-  business_problem.make_confusion_matrix()
   business_problem.get_accuracy()
 
 if __name__ == '__main__':
